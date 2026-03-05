@@ -53,3 +53,6 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+# Needed by the library's assistant
+compile_flags.txt
