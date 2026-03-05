@@ -1,0 +1,11 @@
+[general]
+name = "this is a dummy configuration"
+step = 5
+min_size = 10
+max_size = 300
+repetitions = 20
+seed = 1605
+
+[algorithms]
+enabled = ["INSERTION"]
+
