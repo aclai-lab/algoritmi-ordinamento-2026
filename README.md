@@ -3,6 +3,7 @@ Laboratorio di programmazione del corso di Algoritmi e Strutture Dati dell'Unive
 
 # Documentazione
 
+```mermaid
 flowchart TB
 
     MAIN["main"]
@@ -31,3 +32,4 @@ flowchart TB
     BENCH -->|genera input| SORT
     BENCH -->|esegui algoritmo| SORT
     BENCH -->|testa| SORT
+```
