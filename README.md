@@ -22,6 +22,7 @@ flowchart TB
 
     subgraph Logica Esterna
         SORT["sort"]
+        PLOT["plot"]
     end
 
     MAIN -->|carica| CONFIG
@@ -34,6 +35,8 @@ flowchart TB
     BENCH -->|genera input| SORT
     BENCH -->|esegui algoritmo| SORT
     BENCH -->|testa| SORT
+
+    BENCH -->|grafica| PLOT
 ```
 
 In particolare, il modulo `Configurazione` ha due responsabilità: definire la struttura di configurazione e caricarla.Un possibile esempio è di seguito.
@@ -102,3 +105,11 @@ graph BT
     Sort -->|implementa interfaccia| SelezioneAlgoritmo
     Sort -->|implementa interfaccia| Test
 ```
+
+Dulcis in fundo, vogliamo graficare i risultati in modo automatico. Non avendo a disposizione una libreria grafica, possiamo comunicare in pipe con tool esterni, come `gnuplot` ([vedi qui](http://webusers.fis.uniroma3.it/~meneghini/LPC/files_lezioni/Guida_gnuplot.htm)). 
+
+# TODO
+- Scrivere la logica per i benchmark. 
+- Automatizzare il plot dei risultati con pipe a `gnuplot`.
+- Implementare tre metodi generali per generare un input da testare, selezionare un algoritmo di ordinamento e controllare il risultato.
+- Scrivere il driver per gli esperimenti.
