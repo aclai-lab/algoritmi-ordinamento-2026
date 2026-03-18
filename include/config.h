@@ -8,18 +8,16 @@
 
 struct configuration {
 	char name[NAME_BUF];
-
 	char algorithms[ALGO_BUF][NAME_BUF];
-	uint8_t algorithm_count;
-
-	uint8_t step;
-
-	uint32_t repetitions;
 
 	uint64_t min_size;
 	uint64_t max_size;
-
 	uint64_t seed;
+
+	uint32_t repetitions;
+
+	uint8_t algorithm_count;
+	uint8_t step;
 };
 
 void config_init(struct configuration* config);
