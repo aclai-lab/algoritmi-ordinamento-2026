@@ -56,3 +56,4 @@ dkms.conf
 
 # Needed by the library's assistant
 compile_flags.txt
+.clang-format
