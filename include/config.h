@@ -7,8 +7,8 @@
 #define ALGO_BUF 16
 
 struct configuration {
-	char name[NAME_BUF];
 	char algorithms[ALGO_BUF][NAME_BUF];
+	char name[NAME_BUF];
 
 	uint64_t min_size;
 	uint64_t max_size;
