@@ -7,5 +7,4 @@ repetitions = 20
 seed = 1605
 
 [algorithms]
-enabled = ["INSERTION"]
-
+enabled = ["INSERTION", "MERGE"]
