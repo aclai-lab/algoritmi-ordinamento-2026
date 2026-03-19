@@ -1,6 +1,11 @@
 # algoritmi-ordinamento-2026
 Laboratorio di programmazione del corso di Algoritmi e Strutture Dati dell'Università degli Studi di Ferrara, anno scolastico 2025-2026.
 
+# Utilizzo
+
+Esegui `make` per ottenere un eseguibile.
+Poi esegui passando come argomento un file di configurazione simile a `config/config.toml`.
+
 # Documentazione
 
 La vista ad alto livello del progetto, si può riassumere con questo schema.
@@ -109,7 +114,4 @@ graph BT
 Dulcis in fundo, vogliamo graficare i risultati in modo automatico. Non avendo a disposizione una libreria grafica, possiamo comunicare in pipe con tool esterni, come `gnuplot` ([vedi qui](http://webusers.fis.uniroma3.it/~meneghini/LPC/files_lezioni/Guida_gnuplot.htm)). 
 
 # TODO
-- Scrivere la logica per i benchmark. 
-- Automatizzare il plot dei risultati con pipe a `gnuplot`.
-- Implementare tre metodi generali per generare un input da testare, selezionare un algoritmo di ordinamento e controllare il risultato.
-- Scrivere il driver per gli esperimenti.
+- Scrivere la logica alternativa da eseguire quando `gnuplot` non è disponibile.
