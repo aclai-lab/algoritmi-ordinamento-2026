@@ -45,7 +45,6 @@ int32_t fallback_plot(struct configuration* config, double** results) {
 	return 1;
 }
 
-
 int32_t plot(struct configuration* config, double** results) {
 	FILE* gp = POPEN("gnuplot -persistent", "w");
 	if (!gp) {
