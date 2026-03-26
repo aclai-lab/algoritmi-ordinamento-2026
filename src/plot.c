@@ -12,12 +12,50 @@
 #define PCLOSE pclose
 #endif
 
+int32_t fallback_plot(struct configuration* config, double** results) {
+	char filename[FILENAME_MAX];
+	snprintf(filename, sizeof(filename), "results/%s.csv", config->name);
+
+	FILE* out = fopen(filename, "w");
+	if (!out) {
+		perror("Error while creating a new file for the plot fallback logic\n");
+	}
+
+	fprintf(out, "size");
+	for (uint8_t a = 0; a < config->algorithm_count; a++) {
+		fprintf(out, ",%s", config->algorithms[a]);
+	}
+	fprintf(out, "\n");
+
+	uint64_t num_steps =
+		(config->max_size - config->min_size) / config->step + 1;
+	for (uint64_t s = 0; s < num_steps; s++) {
+		uint64_t current_size = config->min_size + s * config->step;
+		fprintf(out, "%lu", current_size);
+
+		for (uint8_t a = 0; a < config->algorithm_count; a++) {
+			fprintf(out, ",%g", results[a][s]);
+		}
+
+		fprintf(out, "\n");
+	}
+
+	fclose(out);
+	fprintf(stdout, "Fallback data saved to '%s'\n", filename);
+	return 1;
+}
+
+
 int32_t plot(struct configuration* config, double** results) {
 	FILE* gp = POPEN("gnuplot -persistent", "w");
 	if (!gp) {
-		fprintf(stderr, "Error: Could not open pipe to Gnuplot.\n");
-		return 0;
+		fprintf(stdout, "Could not open pipe to Gnuplot. Is it installed?\n");
+		fprintf(stdout, "Invoking fallback logic...\n");
+		return fallback_plot(config, results);
 	}
+
+	fprintf(gp, "set terminal pngcairo enhanced font 'Verdana,10'\n");
+	fprintf(gp, "set output 'results/%s.png'\n", config->name);
 
 	fprintf(gp, "set title 'Benchmark results'\n");
 	fprintf(gp, "set xlabel 'size'\n");
@@ -47,4 +85,3 @@ int32_t plot(struct configuration* config, double** results) {
 
 	return 1;
 }
-
