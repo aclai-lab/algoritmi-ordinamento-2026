@@ -4,25 +4,31 @@
 
 #include "benchmark.h"
 
-void insertion_sort(struct benchmark_input* binput) {
-	int64_t* data = (int64_t*)binput->data;
-	uint32_t size = binput->size;
+#define HYBRID_MS_K 210
 
+void _insertion_sort(int64_t* data, uint32_t start, uint32_t end) {
 	int32_t i;
 	uint32_t j;
 	int64_t key;
 
-	for (j = 1; j < size; j++) {
+	for (j = start + 1; j <= end; j++) {
 		i = j - 1;
 		key = data[j];
 
-		while (i >= 0 && data[i] > key) {
+		while (i >= (int32_t)start && data[i] > key) {
 			data[i + 1] = data[i];
 			i--;
 		}
 
 		data[i + 1] = key;
 	}
+}
+
+void insertion_sort(struct benchmark_input* binput) {
+	int64_t* data = (int64_t*)binput->data;
+	uint32_t size = binput->size;
+
+	_insertion_sort(data, 0, size - 1);
 }
 
 void merge(int64_t* data, uint32_t start, uint32_t mid, uint32_t end) {
@@ -87,16 +93,16 @@ algorithm_ptr select_sorting_algorithm(char* algo_name) {
 	} else if (strcmp(algo_name, "MERGE") == 0) {
 		return &merge_sort;
 	} else {
-		printf("Algoritmo %s non selezionato.", algo_name);
+		printf("The provided algorithm (%s) is not available.", algo_name);
 		exit(-1);
-    }
+	}
 }
 
 int test_sort(struct benchmark_input* binput) {
 	int64_t* _data = (int64_t*)binput->data;
 
 	for (uint64_t i = 1; i < binput->size; i++) {
-		if (_data[i] <= _data[i - 1]) {
+		if (_data[i] < _data[i - 1]) {
 			return 0;
 		}
 	}
