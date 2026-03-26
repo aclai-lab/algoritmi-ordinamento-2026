@@ -115,3 +115,4 @@ Dulcis in fundo, vogliamo graficare i risultati in modo automatico. Non avendo a
 
 # TODO
 - Scrivere la logica alternativa da eseguire quando `gnuplot` non è disponibile.
+- Commentare altre possibili strategie per "plottare" senza `gnuplot`.
