@@ -2,9 +2,9 @@
 name = "first_experiments"
 step = 5
 min_size = 10
-max_size = 1000
+max_size = 1000 
 repetitions = 100
 seed = 1605
 
 [algorithms]
-enabled = ["INSERTION", "MERGE"]
+enabled = ["INSERTION", "MERGE", "HMERGE", "QUICK"]
