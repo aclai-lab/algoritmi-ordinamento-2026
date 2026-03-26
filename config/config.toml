@@ -1,9 +1,9 @@
 [general]
-name = "this is a dummy configuration"
+name = "first_experiments"
 step = 5
 min_size = 10
-max_size = 300
-repetitions = 20
+max_size = 1000
+repetitions = 100
 seed = 1605
 
 [algorithms]
