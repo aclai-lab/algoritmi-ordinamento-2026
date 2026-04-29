@@ -113,6 +113,3 @@ graph BT
 
 Dulcis in fundo, vogliamo graficare i risultati in modo automatico. Non avendo a disposizione una libreria grafica, possiamo comunicare in pipe con tool esterni, come `gnuplot` ([vedi qui](http://webusers.fis.uniroma3.it/~meneghini/LPC/files_lezioni/Guida_gnuplot.htm)). 
 
-# TODO
-- Scrivere la logica alternativa da eseguire quando `gnuplot` non è disponibile.
-- Commentare altre possibili strategie per "plottare" senza `gnuplot`.
