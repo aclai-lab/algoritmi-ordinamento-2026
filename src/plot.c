@@ -2,7 +2,7 @@
 
 #include "plot.h"
 
-// popen must be renamed in windows
+// popen è rinominata in windows
 // https://learn.microsoft.com/it-it/search/?terms=popen
 #ifdef _WIN32
 #define POPEN _popen

@@ -19,9 +19,9 @@ void config_init(struct configuration* config) {
 	config->seed = 1605;
 }
 
-/* Parse the string corresponding to `field` in `result`,
- * whose dimension is at most `buf_size`, and load it in the `name`
- * field within `config`.
+/* Leggi la stringa corrispondente a `field` in `result`,
+ * la cui dimensione è al più `buf_size`, 
+ * e caricala nel campo `name` dentro `config`.
  */
 void _parse_name(toml_result_t result, struct configuration* configuration,
 				 const char* field, size_t buf_size) {
@@ -35,8 +35,9 @@ void _parse_name(toml_result_t result, struct configuration* configuration,
 	configuration->name[buf_size - 1] = '\0';
 }
 
-/* Similar to `_parse_name`, but fills the `.algorith_count` and `.algorithms`
- * fields of the configuration `config`.
+/* Simile a `_parse_name`, ma carica il campo 
+ * `.algorithm_count` e `algorithms` della configurazione `config`.
+ *
  */
 void _parse_algorithms(toml_result_t result, struct configuration* config,
 					   const char* field, size_t buf_size) {
@@ -58,8 +59,8 @@ void _parse_algorithms(toml_result_t result, struct configuration* config,
 	}
 }
 
-/* Parse the `field` of `result` as a signed long long integer, and return it.
- */
+/* Leggi `field` in `result` come tipo `signed long long in
+ * e restituiscilo. */
 int64_t _get_int(toml_result_t result, const char* field) {
 	toml_datum_t repetitions_datum = toml_seek(result.toptab, field);
 	if (repetitions_datum.type != TOML_INT64) {

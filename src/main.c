@@ -10,7 +10,7 @@
 int main(int argc, char** argv) {
 	char conf_path[CONF_PATH_BUF];
 
-	// The configuration must be specified in the command line
+	// Devi specificare la configurazione da linea di comando 
 	if (argc == 2) {
 		snprintf(conf_path, sizeof(conf_path), "%s", argv[1]);
 	} else {
