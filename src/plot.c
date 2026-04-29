@@ -46,12 +46,22 @@ int32_t fallback_plot(struct configuration* config, double** results) {
 }
 
 int32_t plot(struct configuration* config, double** results) {
+    // we can use this trick to check whether the pipe is referring to a
+    // program that is not installed; I think this is rather brutal, though!
 	FILE* gp = POPEN("gnuplot -persistent", "w");
-	if (!gp) {
+    int status = pclose(gp);
+	if (status != 0) {
 		fprintf(stdout, "Could not open pipe to Gnuplot. Is it installed?\n");
 		fprintf(stdout, "Invoking fallback logic...\n");
 		return fallback_plot(config, results);
 	}
+
+    // here, we create another pipe to gnuplot, but this time we are sure that 
+    // the program is installed properly 
+    gp = POPEN("gnuplot -persistent", "w");
+
+    printf("b\n");
+    fflush(stdout);
 
 	fprintf(gp, "set terminal pngcairo enhanced font 'Verdana,10'\n");
 	fprintf(gp, "set output 'results/%s.png'\n", config->name);
