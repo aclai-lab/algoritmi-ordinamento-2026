@@ -106,13 +106,13 @@ uint32_t partition(int64_t* data, uint32_t start, uint32_t end) {
 	int32_t i = start - 1;
 
 	for (uint32_t j = start; j < end; ++j) {
-        if (data[j] <= pivot) {
-            swap(data, ++i, j);
-        }
+		if (data[j] <= pivot) {
+			swap(data, ++i, j);
+		}
 	}
 
-    swap(data, ++i, end);
-    return i;
+	swap(data, ++i, end);
+	return i;
 }
 
 void _quick_sort(int64_t* data, uint32_t start, uint32_t end) {
@@ -134,6 +134,105 @@ void quick_sort(struct benchmark_input* binput) {
 	_quick_sort(data, 0, size - 1);
 }
 
+uint32_t median_of_three(int64_t* data, uint32_t a, uint32_t b, uint32_t c) {
+	int64_t data_a = data[a];
+	int64_t data_b = data[b];
+	int64_t data_c = data[c];
+
+	if (data_a > data_b) {
+		if (data_b > data_c)
+			return b;
+		else if (data_a < data_c)
+			return a;
+		else
+			return c;
+	} else {
+		if (data_a > data_c)
+			return a;
+		else if (data_b < data_c)
+			return b;
+		else
+			return c;
+	}
+}
+
+uint32_t mot_partition(int64_t* data, uint32_t start, uint32_t end) {
+	uint32_t median =
+		median_of_three(data, start, end, start + (end - start) / 2);
+	swap(data, median, end);
+
+	return partition(data, start, end);
+}
+
+void _mot_quick_sort(int64_t* data, uint32_t start, uint32_t end) {
+	if (start < end) {
+		uint32_t mid = mot_partition(data, start, end);
+		if (mid > 0) {
+			_mot_quick_sort(data, start, mid - 1);
+		}
+		if (mid < end - 1) {
+			_mot_quick_sort(data, mid + 1, end);
+		}
+	}
+}
+
+void mot_quick_sort(struct benchmark_input* binput) {
+	int64_t* data = (int64_t*)binput->data;
+	uint32_t size = binput->size;
+
+	_mot_quick_sort(data, 0, size - 1);
+}
+
+void _tail_quick_sort(int64_t* data, uint32_t start, uint32_t end) {
+	while (start < end) {
+		uint32_t mid = mot_partition(data, start, end);
+		if (mid > 0) {
+			_tail_quick_sort(data, start, mid - 1);
+		}
+		start = mid + 1;
+	}
+}
+
+void tail_quick_sort(struct benchmark_input* binput) {
+	int64_t* data = (int64_t*)binput->data;
+	uint32_t size = binput->size;
+
+	_tail_quick_sort(data, 0, size - 1);
+}
+
+// void max_heapify(int* arr, int n, int root) {
+// 	int largest = root;
+// 	int left = 2 * root + 1;
+// 	int right = 2 * root + 2;
+//
+// 	if (left < n && arr[left] > arr[largest]) {
+// 		largest = left;
+// 	}
+//
+// 	if (right < n && arr[right] > arr[largest]) {
+// 		largest = right;
+// 	}
+//
+// 	if (largest != root) {
+// 		swap(arr, root, largest);
+// 		max_heapify(arr, n, largest);
+// 	}
+// }
+//
+// void heap_sort(int* arr, int start, int end) {
+// 	int n = end - start + 1;
+//
+// 	// Crea la heap
+// 	for (int i = n / 2 - 1; i >= 0; i--) {
+// 		max_heapify(arr, n, i);
+// 	}
+//
+// 	for (int i = n - 1; i > 0; i--) {
+// 		swap(arr, start, start + i);
+// 		max_heapify(arr, i, start);
+// 	}
+// }
+//
 void generate_array(struct benchmark_input* binput, uint32_t size) {
 	binput->size = size;
 	binput->data = malloc(size * sizeof(int64_t));
@@ -154,6 +253,10 @@ algorithm_ptr select_sorting_algorithm(char* algo_name) {
 		return &hybrid_merge_sort;
 	} else if (strcmp(algo_name, "QUICK") == 0) {
 		return &quick_sort;
+	} else if (strcmp(algo_name, "MOTQUICK") == 0) {
+		return &mot_quick_sort;
+	} else if (strcmp(algo_name, "TAILQUICK") == 0) {
+		return &tail_quick_sort;
 	} else {
 		printf("The provided algorithm (%s) is not available.", algo_name);
 		exit(-1);
