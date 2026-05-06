@@ -60,7 +60,6 @@ int32_t plot(struct configuration* config, double** results) {
     // the program is installed properly 
     gp = POPEN("gnuplot -persistent", "w");
 
-    printf("b\n");
     fflush(stdout);
 
 	fprintf(gp, "set terminal pngcairo enhanced font 'Verdana,10'\n");
