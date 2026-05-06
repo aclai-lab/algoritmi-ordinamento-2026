@@ -200,39 +200,54 @@ void tail_quick_sort(struct benchmark_input* binput) {
 	_tail_quick_sort(data, 0, size - 1);
 }
 
-// void max_heapify(int* arr, int n, int root) {
-// 	int largest = root;
-// 	int left = 2 * root + 1;
-// 	int right = 2 * root + 2;
-//
-// 	if (left < n && arr[left] > arr[largest]) {
-// 		largest = left;
-// 	}
-//
-// 	if (right < n && arr[right] > arr[largest]) {
-// 		largest = right;
-// 	}
-//
-// 	if (largest != root) {
-// 		swap(arr, root, largest);
-// 		max_heapify(arr, n, largest);
-// 	}
-// }
-//
-// void heap_sort(int* arr, int start, int end) {
-// 	int n = end - start + 1;
-//
-// 	// Crea la heap
-// 	for (int i = n / 2 - 1; i >= 0; i--) {
-// 		max_heapify(arr, n, i);
-// 	}
-//
-// 	for (int i = n - 1; i > 0; i--) {
-// 		swap(arr, start, start + i);
-// 		max_heapify(arr, i, start);
-// 	}
-// }
-//
+void _max_heapify(int64_t* data, uint32_t size, uint32_t root) {
+	uint32_t largest = root;
+	uint32_t left = 2 * root + 1;
+	uint32_t right = 2 * root + 2;
+
+	if (left < size && data[left] > data[largest]) {
+		largest = left;
+	}
+
+	if (right < size && data[right] > data[largest]) {
+		largest = right;
+	}
+
+	if (largest != root) {
+		swap(data, root, largest);
+		_max_heapify(data, size, largest);
+	}
+}
+
+void _heap_sort(int64_t* data, uint32_t size) {
+	// usiamo un iteratore signed per semplificare un attimo il codice,
+	// ma i cicli for sotto si potrebbero riscrivere per supportare direttamente
+	// un iteratore uint32_t;
+    // esempio del primo ciclo: for (uint32_t i = (size / 2); i-- > 0; )
+	int32_t i;
+
+	// crea la max heap
+	for (i = (size / 2) - 1; i >= 0; i--) {
+		_max_heapify(data, size, i);
+	}
+
+	// ogni volta "estrai" l'elemento più grande dalla heap (la radice)
+	// e posizionalo nell'ultima posizione libera (la i-esima) in data;
+	for (i = size - 1; i > 0; i--) {
+		// estrazione e posizionamento sono fatte contemporaneamente dallo swap
+		swap(data, 0, i);
+		// devo ripristinare la proprietà di max heap
+		_max_heapify(data, i, 0);
+	}
+}
+
+void heap_sort(struct benchmark_input* binput) {
+	int64_t* data = (int64_t*)binput->data;
+	uint32_t size = binput->size;
+
+	_heap_sort(data, size);
+}
+
 void generate_array(struct benchmark_input* binput, uint32_t size) {
 	binput->size = size;
 	binput->data = malloc(size * sizeof(int64_t));
@@ -257,6 +272,8 @@ algorithm_ptr select_sorting_algorithm(char* algo_name) {
 		return &mot_quick_sort;
 	} else if (strcmp(algo_name, "TAILQUICK") == 0) {
 		return &tail_quick_sort;
+	} else if (strcmp(algo_name, "HEAPSORT") == 0) {
+		return &heap_sort;
 	} else {
 		printf("The provided algorithm (%s) is not available.", algo_name);
 		exit(-1);
