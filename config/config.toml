@@ -7,4 +7,4 @@ repetitions = 100
 seed = 1605
 
 [algorithms]
-enabled = ["INSERTION", "MERGE", "HMERGE", "QUICK"]
+enabled = ["MERGE", "HMERGE", "QUICK", "MOTQUICK", "TAILQUICK", "HEAPSORT"]
